@@ -5,6 +5,7 @@ import JobOffers from "./components/jobOffers";
 import JobDetails from "./components/jobDetails";
 import Favourites from "./components/favourites"
 import Navbar from "./components/navbar";
+import { connect } from "react-redux";
 
 import {
   Container,
@@ -17,20 +18,42 @@ import {
 } from "react-bootstrap";
 import "./styles/mainApp.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
+const mapStateToProps = (state) => state;
+const mapDispatchToProps = (dispatch) => ({
+  addToFavourites: (id) =>
+    dispatch({
+      type: "ADD_JOB_TO_FAVOURITES",
+      payload: id,
+    }),removeFromFavourites: (id) =>
+    dispatch({
+      type: "REMOVE_JOB_FROM_FAVOURITES",
+      payload: id,
+    }),startLoading: () =>
+    dispatch({
+      type: "START_LOADING"
+    }),stopLoading: () =>
+    dispatch({
+      type: "STOP_LOADING"
+    }),
+});
 class App extends React.Component {
+  
   state = {
     description: "",
     location: "",
     results: [],
     companyId: "",
+    loading:true
   };
   searchForJobs = async (description, location) => {
+    this.props.startLoading()
     let response = await fetch(
      `https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json?description=${description}&location=${location}`
     );
     let data = await response.json();
+   
     this.setState({ results: data });
+    this.props.stopLoading()
   };
   changeCurrentDesc = async (e) => {
     console.log(e.currentTarget.value);
@@ -49,6 +72,7 @@ class App extends React.Component {
      
         <Router>
         <Navbar />
+        
           <Route path="/startPage">
             <SearchBar
               changeCurrentLocation={this.changeCurrentLocation}
@@ -57,6 +81,7 @@ class App extends React.Component {
               des={this.state.description}
               loc={this.state.location}
             />
+            
             <JobOffers
               results={this.state.results}
               changeCompanyId={this.changeCompanyId}
@@ -74,4 +99,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -23,6 +23,12 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch({
       type: "REMOVE_JOB_FROM_FAVOURITES",
       payload: id,
+    }),startLoading: () =>
+    dispatch({
+      type: "START_LOADING"
+    }),stopLoading: () =>
+    dispatch({
+      type: "STOP_LOADING"
     }),
 });
 class JobOffers extends React.Component {
@@ -30,15 +36,19 @@ class JobOffers extends React.Component {
     return (
       <>
         <Row className="d-flex justify-content-center flex-row">
+        {this.props.loading? (     <img src = "https://mir-s3-cdn-cf.behance.net/project_modules/disp/cd514331234507.564a1d2324e4e.gif" />):(<></>)}
           {this.props.results.length !== 0 ? (
             this.props.results.map((job) => (
               <SingleJobOffer fromSearch = {true}job = {job} changeCompanyId={this.props.changeCompanyId}/>
             ))
           ) : (
+           
             <p style={{ marginTop: "18rem", color: "black", fontSize: "40px" }}>
-              Search for a job by adding details and clicking on submit
+             <div > Search for a job    </div> 
+        
             </p>
           )}
+          {this.props.loading? (     <img className ="mt-10px" src = "https://mir-s3-cdn-cf.behance.net/project_modules/disp/cd514331234507.564a1d2324e4e.gif" />):(<></>)}
         </Row>
       </>
     );

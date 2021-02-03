@@ -8,3 +8,6 @@
 .search:hover{
     background-color: lightgray;
 }
+.loadingImage{
+    padding-top: 100px;
+}
