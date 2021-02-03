@@ -1,0 +1,10 @@
+.search{
+    border:1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    transition:ease-in-out 0.5s
+
+}
+.search:hover{
+    background-color: lightgray;
+}
