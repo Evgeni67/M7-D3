@@ -25,24 +25,24 @@ const mapDispatchToProps = (dispatch) => ({
       payload: id,
     }),
 });
-class JobOffers extends React.Component {
+class Favourites extends React.Component {
   render() {
     return (
       <>
-        <Row className="d-flex justify-content-center flex-row">
-          {this.props.results.length !== 0 ? (
-            this.props.results.map((job) => (
-              <SingleJobOffer fromSearch = {true}job = {job} changeCompanyId={this.props.changeCompanyId}/>
+  <Row className="d-flex justify-content-center flex-row">
+          {this.props.favouriteJobs.length !== 0 ? (
+            this.props.favouriteJobs.map((job) => (
+              <SingleJobOffer fromSearch = {false} job = {job} changeCompanyId={this.props.changeCompanyId}/>
             ))
           ) : (
             <p style={{ marginTop: "18rem", color: "black", fontSize: "40px" }}>
-              Search for a job by adding details and clicking on submit
+              Favourites list
             </p>
           )}
         </Row>
-      </>
+       </>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(JobOffers);
+export default connect(mapStateToProps, mapDispatchToProps)(Favourites);

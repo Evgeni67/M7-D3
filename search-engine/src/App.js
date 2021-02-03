@@ -3,6 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SearchBar from "./components/searchBar";
 import JobOffers from "./components/jobOffers";
 import JobDetails from "./components/jobDetails";
+import Favourites from "./components/favourites"
+import Navbar from "./components/navbar";
+
 import {
   Container,
   Row,
@@ -24,7 +27,7 @@ class App extends React.Component {
   };
   searchForJobs = async (description, location) => {
     let response = await fetch(
-      `https://yabba-dabba-duls-cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json?$description=${description}&location=${location}`
+     `https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json?description=${description}&location=${location}`
     );
     let data = await response.json();
     this.setState({ results: data });
@@ -43,7 +46,9 @@ class App extends React.Component {
   render() {
     return (
       <>
+     
         <Router>
+        <Navbar />
           <Route path="/startPage">
             <SearchBar
               changeCurrentLocation={this.changeCurrentLocation}
@@ -59,6 +64,9 @@ class App extends React.Component {
           </Route>
           <Route path="/jobDetails">
             <JobDetails job={this.state.results.filter(job=>job.id === this.state.companyId)}/>
+          </Route>
+          <Route exact path="/favourites">
+            <Favourites  changeCompanyId={this.changeCompanyId}/>
           </Route>
         </Router>
       </>
